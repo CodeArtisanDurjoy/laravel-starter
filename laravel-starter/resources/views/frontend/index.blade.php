@@ -4,24 +4,72 @@
     {{ app_name() }}
 @endsection
 
+{{-- This push adds the animation keyframes to your <head> --}}
+@push('styles')
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fadeInUp {
+            animation: fadeInUp 0.7s ease-out forwards;
+            opacity: 0; /* Start hidden */
+        }
+    </style>
+@endpush
+
 @section("content")
-    <section class="bg-white dark:bg-gray-800">
-        <div class="mx-auto max-w-screen-xl px-4 py-24 text-center sm:px-12">
+    {{-- 
+      Hero Section 
+      - Changed background to bg-black
+      - Added position: relative and overflow-hidden to contain the canvas
+    --}}
+    <section class="relative overflow-hidden bg-black">
+        
+        {{-- Matrix Canvas Background --}}
+        <canvas id="matrix-canvas" class="absolute top-0 left-0 z-0 h-full w-full"></canvas>
+
+        {{-- 
+          Content Wrapper
+          - Added position: relative and z-10 to place content ON TOP of the canvas
+        --}}
+        <div class="relative z-10 mx-auto max-w-screen-xl px-4 py-24 text-center sm:px-12 lg:py-32">
             <div class="m-6 flex justify-center">
-                <img class="h-24 rounded" src="{{ asset("img/logo-square.jpg") }}" alt="{{ app_name() }}" />
+                {{-- Added shadow, rounded-xl, and load animation --}}
+                <img
+                    class="h-24 rounded-xl shadow-lg animate-fadeInUp"
+                    src="{{ asset("img/logo-square.jpg") }}"
+                    alt="{{ app_name() }}"
+                    style="animation-delay: 0.1s"
+                />
             </div>
             <h1
-                class="mb-6 text-4xl leading-none font-extrabold tracking-tight text-gray-900 sm:text-6xl dark:text-white"
+                class="mb-6 text-4xl font-extrabold leading-none tracking-tight animate-fadeInUp sm:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500"
+                style="animation-delay: 0.2s"
             >
                 {{ app_name() }}
             </h1>
-            <p class="mb-10 text-lg font-normal text-gray-500 sm:px-16 sm:text-2xl xl:px-48 dark:text-gray-400">
+            <p
+                {{-- Changed text color for readability on black background --}}
+                class="mb-10 text-lg font-normal text-gray-300 sm:px-16 sm:text-2xl xl:px-48 dark:text-gray-200 animate-fadeInUp"
+                style="animation-delay: 0.3s"
+            >
                 {!! setting("app_description") !!}
             </p>
-            <div class="mb-8 flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4 lg:mb-16">
+            <div
+                class="mb-8 flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4 lg:mb-16 animate-fadeInUp"
+                style="animation-delay: 0.4s"
+            >
+                {{-- Added transition and hover effects --}}
                 <a
-                    class="inline-flex items-center justify-center rounded-lg bg-gray-700 px-5 py-3 text-center text-base font-medium text-white hover:bg-gray-800 focus:ring-4 focus:ring-gray-300"
-                    href="https://github.com/nasirkhan/laravel-starter"
+                    class="inline-flex items-center justify-center rounded-lg bg-gray-800 px-5 py-3 text-center text-base font-medium text-white shadow-md transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-gray-900 hover:shadow-lg focus:ring-4 focus:ring-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                    href="https://github.com/CodeArtisanDurjoy/laravel-starter"
                     target="_blank"
                 >
                     <svg
@@ -43,9 +91,10 @@
                     </svg>
                     <span class="ms-2">Github</span>
                 </a>
+                {{-- Added transition and hover effects --}}
                 <a
-                    class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3 text-center text-base font-medium text-gray-900 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:border-gray-700 dark:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-800"
-                    href="https://nasirkhn.com"
+                    class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3 text-center text-base font-medium text-gray-900 shadow-md transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-gray-100 hover:shadow-lg focus:ring-4 focus:ring-gray-100 dark:border-gray-700 dark:bg-gray-100 dark:text-gray-800 dark:hover:bg-white dark:focus:ring-gray-800"
+                    href="https://bash-baba-portfolio.onrender.com/"
                     target="_blank"
                 >
                     <svg
@@ -79,51 +128,96 @@
         </div>
     </section>
 
-    <section class="bg-gray-100 py-20 text-gray-600 dark:bg-gray-700 dark:text-gray-400">
-        <div class="container mx-auto flex flex-col items-center justify-center px-5">
-            <div class="w-full text-center lg:w-2/3">
-                <h1 class="mb-4 text-3xl font-medium text-gray-800 sm:text-4xl dark:text-gray-200">
-                    {{ __("Screenshots of the project") }}
-                </h1>
-
-                <p class="mb-8 leading-relaxed">
-                    In the following section we listed a number of screenshots of different parts of the project,
-                    Laravel Starter.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="bg-gray-50 pb-20 dark:bg-gray-700">
-        <div class="grid grid-cols-1 gap-4 p-5 sm:grid-cols-2">
-            <div class="rounded-lg p-3 shadow-lg sm:p-10 dark:bg-gray-800">
-                <img
-                    loading="lazy"
-                    src="https://github.com/nasirkhan/laravel-starter/assets/396987/1cf5ce5a-f374-4bae-b5a3-69e8d7ff684d"
-                    alt="Page preview"
-                />
-            </div>
-            <div class="rounded-lg p-3 shadow-lg sm:p-10 dark:bg-gray-800">
-                <img
-                    loading="lazy"
-                    src="https://github.com/nasirkhan/laravel-starter/assets/396987/93341711-60dd-4624-8cd7-82f1c611287d"
-                    alt="Page preview"
-                />
-            </div>
-            <div class="rounded-lg p-3 shadow-lg sm:p-10 dark:bg-gray-800">
-                <img
-                    loading="lazy"
-                    src="https://github.com/nasirkhan/laravel-starter/assets/396987/0f6b8201-6f6a-429f-894b-4e491cc5eba4"
-                    alt="Page preview"
-                />
-            </div>
-            <div class="rounded-lg p-3 shadow-lg sm:p-10 dark:bg-gray-800">
-                <img
-                    loading="lazy"
-                    src="https://github.com/nasirkhan/laravel-starter/assets/396987/f8131011-2ecc-4a11-961f-85e02cb8f7a1"
-                    alt="Page preview"
-                />
-            </div>
-        </div>
-    </section>
+      
 @endsection
+
+{{-- This new push adds the Matrix rain JavaScript to your page --}}
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas dimensions to match its container
+            const setCanvasDimensions = () => {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            };
+            
+            setCanvasDimensions();
+
+            // Characters to use (Katakana, numbers, letters)
+            const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+            const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const nums = '0123456789';
+            const alphabet = katakana + latin + nums;
+
+            const fontSize = 16;
+            const columns = Math.floor(canvas.width / fontSize);
+
+            // Array to store the y-position of each column's "drop"
+            const drops = [];
+            for (let x = 0; x < columns; x++) {
+                drops[x] = 1;
+            }
+
+            const draw = () => {
+                // Fill the canvas with a semi-transparent black
+                // This creates the "fading" trail effect
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Set text color to matrix green
+                ctx.fillStyle = '#0F0'; // Or '#32CD32' (limegreen)
+                ctx.font = `${fontSize}px monospace`;
+
+                // Loop through each column
+                for (let i = 0; i < drops.length; i++) {
+                    // Get a random character from the alphabet
+                    const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                    
+                    // Draw the character
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    // Move the drop down for the next frame
+                    drops[i]++;
+
+                    // If the drop has moved off-screen, reset it to the top with a random chance
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                }
+            };
+
+            // Start the animation loop
+            const matrixInterval = setInterval(draw, 33); // ~30 FPS
+
+            // Recalculate dimensions on window resize
+            window.addEventListener('resize', () => {
+                setCanvasDimensions();
+                // We need to reset columns and drops array if width changes
+                const newColumns = Math.floor(canvas.width / fontSize);
+                if (newColumns !== columns) {
+                    drops.length = 0; // Clear old array
+                    for (let x = 0; x < newColumns; x++) {
+                        drops[x] = 1;
+                    }
+                }
+            });
+
+            // Optional: Stop the interval if the user navigates away
+            // This is good practice for performance
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    clearInterval(matrixInterval);
+                } else {
+                    // Check if it was cleared before restarting
+                    if (matrixInterval) {
+                        clearInterval(matrixInterval);
+                    }
+                    setInterval(draw, 33);
+                }
+            });
+        });
+    </script>
+@endpush
